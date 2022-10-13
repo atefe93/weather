@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\History;
 use App\Repositories\WeatherRepository;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redis;
@@ -39,11 +40,12 @@ class WeatherController extends Controller
      //   $ip = '2.147.78.215'; /* Static IP address */
 
        $currentUserInfo = Location::get($ip);
+
         if (!$currentUserInfo){
-            return response()->json(['message'=>'this ip is not true']);
+            return response()->json(['message'=>'this ip is not true'],Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        return response()->json(['city'=>$currentUserInfo->cityName]);
+        return response()->json(['city'=>$currentUserInfo->cityName],Response::HTTP_OK);
     }
 
 
